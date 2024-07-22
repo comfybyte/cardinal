@@ -1,3 +1,9 @@
+use cardinal::cli;
+
 fn main() {
-    println!("nyan.");
+    match cli::cmd().get_matches().subcommand() {
+        _ => {
+            cli::cmd().print_help().expect("can't print help.");
+        }
+    }
 }
