@@ -98,3 +98,33 @@ impl ValidValue for bool {}
 impl ValidValue for Datetime {}
 impl ValidValue for Vec<Value> {}
 impl ValidValue for Table {}
+
+#[cfg(test)]
+mod tests {
+    use super::{ExtendedTable, ExtendedValue};
+
+    #[test]
+    fn extended_table() {
+        let table_str = "
+            [files.\".zshrc\"]
+            source = \".zshrc\"
+            ";
+        let dummy_table = table_str
+            .parse::<toml::Table>()
+            .expect("dummy table in test `extended_table` is malformatted.");
+
+        let files = dummy_table.get_checked::<toml::Table>("files");
+        assert!(files.is_ok());
+
+        let dummy_file = files.unwrap().get_checked::<toml::Table>(".zshrc");
+        assert!(dummy_file.is_ok());
+        assert!(dummy_file.unwrap().get_checked::<String>("source").is_ok());
+    }
+
+    #[test]
+    fn extended_value() {
+        let dummy_value = toml::Value::Integer(42);
+
+        assert!(dummy_value.downcast_copy::<i64>().is_some());
+    }
+}
