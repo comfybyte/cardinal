@@ -8,6 +8,7 @@ use crate::utils::tomlx::{self, ExtendedTable, ExtendedValue};
 const CARDINAL_CONFIG_NAME: &str = "cardinal.toml";
 
 pub mod file;
+pub mod store;
 
 /// Holds the runtime data.
 #[derive(Debug)]

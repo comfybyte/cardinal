@@ -2,4 +2,4 @@
 pub mod tomlx;
 pub mod xdg;
 /// Simple hashing utilities.
-pub mod hash;
+pub mod hashing;

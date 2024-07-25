@@ -48,6 +48,18 @@ pub fn hash_dir(path: &Path) -> Result<Sha1, HashPathError> {
     Ok(Sha1::from(hexdigests.as_bytes()))
 }
 
+/// Computes the hash of a file or directory at given `path`.
+///
+/// # Errors
+/// If the path can't be opened for read.
+pub fn hash_path(path: &Path) -> Result<Sha1, HashPathError> {
+    if path.is_file() {
+        hash_file(path)
+    } else {
+        hash_dir(path)
+    }
+}
+
 #[derive(Error, Debug)]
 pub enum HashPathError {
     #[error("couldn't hash path: {0:?}")]
@@ -62,7 +74,7 @@ mod test {
 
     use super::{hash_dir, hash_file};
 
-    const TEST_PATH: &str = "/tmp/cardinal/test";
+    const TEST_PATH: &str = "/tmp/cardinal/tests/hashing";
 
     fn setup_path() {
         fs::create_dir_all(TEST_PATH).ok();
