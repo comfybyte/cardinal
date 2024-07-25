@@ -100,6 +100,7 @@ impl ValidValue for Vec<Value> {}
 impl ValidValue for Table {}
 
 #[cfg(test)]
+#[allow(clippy::unwrap_used)]
 mod tests {
     use super::{ExtendedTable, ExtendedValue};
 
