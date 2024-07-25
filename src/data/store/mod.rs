@@ -25,7 +25,7 @@ impl Store {
     /// If the store can't be created.
     pub fn create(&self) -> Result<(), CreateError> {
         if let Err(err) = fs::create_dir(&self.path) {
-            if err.kind() == io::ErrorKind::NotFound {
+            if err.kind() == io::ErrorKind::AlreadyExists {
                 Ok(())
             } else {
                 Err(CreateError::Io(err))
